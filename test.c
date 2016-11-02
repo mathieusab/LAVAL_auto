@@ -234,6 +234,9 @@ int main(int argc, char**argv)
   int l_power2 = 0;
   int coder_left = 0;
   int coder_right = 0;
+  int angle = 0;
+  int coef_rect = 0;
+
 
 
   // Disable output and input buffering.
@@ -289,44 +292,25 @@ int main(int argc, char**argv)
       usleep(10);
     }
 
-    if (kbhit() != 0) l_key = getch();
+
+    l_power1 = 2000 + (coef_rect * angle);
+    l_power2 = 2000 - (coef_rect * angle);
+    remoteDataS16(1, l_power1);
+    remoteDataS16(2, l_power2);
+
+
+   // if (kbhit() != 0) l_key = getch();
 
 
     switch (l_key)
     {
     case 'z':
-      l_power1 += 500;
-      l_power2 += 500;
-      remoteDataS16(1, l_power1);
-      remoteDataS16(2, l_power2);
+      angle += 5;
       break;
-      case 's':
-      l_power1 -= 500;
-      l_power2 -= 500;
-      remoteDataS16(1, l_power1);
-      remoteDataS16(2, l_power2);
-      break;
-      case 'q':
-      l_power1 -= 500;
-      l_power2 += 500;
-      remoteDataS16(1, l_power1);
-      remoteDataS16(2, l_power2);
-      break;
-      case 'd':
-      l_power1 += 500;
-      l_power2 -= 500;
-      remoteDataS16(1, l_power1);
-      remoteDataS16(2, l_power2);
-      break;
-      case 'c':
-      l_power1 = 0;
-      l_power2 = 0;
-      remoteDataS16(1, l_power1);
-      remoteDataS16(2, l_power2);
+    case 's':
+      angle -= 5;
       break;
     }
-
-
   }
   while (l_key != 0x1b);
 
